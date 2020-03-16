@@ -1,5 +1,5 @@
 # PeppaPig2
 # Team Members:
-Charles Lyster
-Daniel Hariyanto
-Megan Kohanarieh
+<li>Charles Lyster
+<li>Daniel Hariyanto
+<li>Megan Kohanarieh
