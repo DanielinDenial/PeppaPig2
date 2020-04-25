@@ -1,17 +1,20 @@
-package flappy;
+package FlappyBird;
 
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
 
-
 public class Renderer extends JPanel{
-
-	private static final long serialVersionUID = 1L;//to satisfy a warning
 	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g); //paints/renders things onto game window
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Override
+	protected void paintComponent(Graphics g) {
 		
-		FlappyBird.flappyBird.repaint(g); //to allow things to be rendered in the FlappyBird class
+		super.paintComponent(g);
+		
+		FlappyBird.flappyBird.repaint(g);
 	}
 
 }
