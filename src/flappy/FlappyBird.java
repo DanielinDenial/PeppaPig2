@@ -103,7 +103,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	
 	// causes the bird object to jump: main player movement
 	public void jump() {
-		if (gameOver) {		
+		if (gameOver) {
 			bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
 			columns.clear();
 			yMotion = 0;
