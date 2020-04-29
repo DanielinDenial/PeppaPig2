@@ -12,32 +12,42 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+/**
+ * Peppa Pig's Flappy Bird game
+ * @author Team 5: Peppa Pig
+ *
+ */
 public class FlappyBird implements ActionListener, MouseListener, KeyListener {
-	
-	
-	
 	public static FlappyBird flappyBird;
 	
+	// size of game display
 	public final int WIDTH = 800, HEIGHT = 800;
 	
+	// used to display the game
 	public Renderer renderer;
 	
+	// the bird that the player controls
 	public Rectangle bird;
 	
+	// array of rectanges which will form the obstacles
 	public ArrayList<Rectangle> columns;
 	
-	public int ticks, yMotion, score; //yMotion is the motion of the bird
+	// ticks manages time in the game
+	// yMotion is the motion of the bird
+	// score records number of successful jumps
+	public int ticks, yMotion, score;
 	
+	// boolean variables for when game is over and for when the game has started
 	public boolean gameOver, started = true;
-		
+	
+	// used to randomly place obstacles in game
 	public Random rand;
 	
+	// FlappyBird game object
 	public FlappyBird() {
-		
 		JFrame jframe = new JFrame();
 		Timer timer = new Timer(20, this);
 		
@@ -62,44 +72,37 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		addColumn(true);
 		
 		timer.start();
-		
 	}
 	
+	// main method that starts Flappy Bird game
 	public static void main(String [] args) {
-
 		flappyBird = new FlappyBird();
-
 	}
 	
+	// adds obstacles (in the form of columns) in the game
 	public void addColumn(boolean start) {
 		int space = 300;
 		int width = 100;
 		int height = 50 + rand.nextInt(300);
 		
 		if (start) {
-			
 			columns.add(new Rectangle(WIDTH + width + columns.size() * 300, HEIGHT - height - 120, width, height));
 			columns.add(new Rectangle(WIDTH + width + (columns.size() - 1) * 300, 0, width, HEIGHT - height - space));
-		
-		}
-		else {
-			
+		} else {
 			columns.add(new Rectangle(columns.get(columns.size() - 1).x + 600, HEIGHT - height - 120, width, height));
 			columns.add(new Rectangle(columns.get(columns.size() - 1).x, 0, width, HEIGHT - height - space));
 		}
 	}
 	
+	// displays the obstacles in the game display
 	public void paintColumn(Graphics g, Rectangle column) {
-		
 		g.setColor(Color.green.darker());
 		g.fillRect(column.x, column.y, column.width, column.height);
-		
 	}
 	
+	// causes the bird object to jump: main player movement
 	public void jump() {
-		
-		if (gameOver) {
-			
+		if (gameOver) {		
 			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
 			columns.clear();
 			yMotion = 0;
@@ -114,7 +117,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		}
 		if(!started) {			
 			started = true;
-		}	
+		}
 		else if(!gameOver) {			
 			if (yMotion > 0) {				
 				yMotion = 0;
@@ -123,6 +126,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		}
 	}
 	
+	// invokes playing of game
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int speed = 10;		
@@ -141,7 +145,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 				Rectangle column = columns.get(i);			
 				if (column.x + column.width < 0) {				
 					columns.remove(column);				
-					if (column.y== 0) {					
+					if (column.y == 0) {					
 					addColumn(false);
 				
 					}
@@ -157,7 +161,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 					gameOver = true;				
 					if (bird.x <= column.x) {					
 						bird.x = column.x - bird.width;						
-					}					
+					}	
 					else {						
 						if(column.y != 0) {							
 							bird.y = column.y - bird.height;
@@ -179,11 +183,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 			}
 			
 			renderer.repaint();
-		
 		}
 	}
 	
-	
+	// manages the graphics for the display
 	public void repaint(Graphics g) {
 		
 		g.setColor(Color.cyan);
