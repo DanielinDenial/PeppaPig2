@@ -16,7 +16,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-public class FlappyBird implements ActionListener, MouseListener, KeyListener{
+public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	
 	
 	
@@ -214,7 +214,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
 			g.drawString("Game Over!", 100, HEIGHT / 2 - 50);
 		}
 		
-		if(!gameOver && !started) {
+		if(!gameOver && started) {
 			g.drawString(String.valueOf(score), WIDTH / 2 - 25, 100);
 		}
 
