@@ -64,7 +64,19 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		jframe.setResizable(false);
 		jframe.setVisible(true);
 		
-		bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		int randomAvatar = rand.nextInt(5);
+		if (randomAvatar == 0) {
+			bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		} else if (randomAvatar == 1) {
+			bird = new BlueBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		} else if (randomAvatar == 2) {
+			bird = new OrangeBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		} else if (randomAvatar == 3) {
+			bird = new BlackBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		} else if (randomAvatar == 4) {
+			bird = new WhiteBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		}
+		
 		columns = new ArrayList<Rectangle>();
 		scores = new ArrayList<Double>();
 		
@@ -107,7 +119,19 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	// causes the bird object to jump: main player movement
 	public void jump() {
 		if (gameOver) {
-			bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+			int randomAvatar = rand.nextInt(5);
+			if (randomAvatar == 0) {
+				bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+			} else if (randomAvatar == 1) {
+				bird = new BlueBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+			} else if (randomAvatar == 2) {
+				bird = new OrangeBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+			} else if (randomAvatar == 3) {
+				bird = new BlackBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+			} else if (randomAvatar == 4) {
+				bird = new WhiteBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+			}
+			
 			columns.clear();
 			yMotion = 0;
 			addScore(score);
