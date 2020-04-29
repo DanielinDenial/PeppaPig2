@@ -64,6 +64,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		jframe.setResizable(false);
 		jframe.setVisible(true);
 		
+		// randomizes bird avatar
 		int randomAvatar = rand.nextInt(5);
 		if (randomAvatar == 0) {
 			bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
@@ -217,23 +218,27 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	
 	// manages the graphics for the display
 	public void repaint(Graphics g) {
-		
+		// color of background
 		g.setColor(Color.cyan);
-		g.fillRect(0, 0, WIDTH, HEIGHT); //color of background
+		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
+		// color of ground
 		g.setColor(Color.orange);
-		g.fillRect(0, HEIGHT-120, WIDTH, 120); //color of ground
+		g.fillRect(0, HEIGHT-120, WIDTH, 120);
 		
+		// color of grass
 		g.setColor(Color.green);
-		g.fillRect(0, HEIGHT-120, WIDTH, 20); //color of grass
+		g.fillRect(0, HEIGHT-120, WIDTH, 20);
 		
+		// color of bird avatars
 		bird.repaint(g);
 		
+		// color of obstacles
 		for (Rectangle column : columns) {
-			
 			paintColumn(g, column);
 		}
 		
+		// color of words
 		g.setColor(Color.white);
 		g.setFont(new Font("Arial", 1, 100));
 		
@@ -250,6 +255,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		}
 
 	}
+	
 	public int getScore() {
 		return score;
 	}
@@ -257,11 +263,12 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	public void addScore(double x) {
 		scores.add(x);
 	}
+	
 	public void clearScores() {
 		scores.clear();
 	}
-	/** Calculates the average score of the players runs before exited manually
-	 */
+	
+	// Calculates the average score of the players runs before exited manually
 	public void calculateAverage() {
 		int games = scores.size();
 		double avg;
@@ -270,43 +277,31 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 			sum += scores.get(i);
 		}
 		avg = sum / games;
-		System.out.printf("Your average is: %.2f\n",avg);
+		System.out.printf("Your average score is: %.2f\n",avg);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -321,7 +316,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
 	}
 	
 
