@@ -35,6 +35,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	// array of rectanges which will form the obstacles
 	public ArrayList<Rectangle> columns;
 	
+	public ArrayList<Double> scores;
 	// ticks manages time in the game
 	// yMotion is the motion of the bird
 	// score records number of successful jumps
@@ -65,6 +66,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		
 		bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
 		columns = new ArrayList<Rectangle>();
+		scores = new ArrayList<Double>();
 		
 		addColumn(true);
 		addColumn(true);
@@ -76,6 +78,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	
 	// main method that starts Flappy Bird game
 	public static void main(String [] args) {
+		System.out.println("Press \"A\" to get your average score!");
 		flappyBird = new FlappyBird();
 	}
 	
@@ -107,6 +110,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 			bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
 			columns.clear();
 			yMotion = 0;
+			addScore(score);
 			score = 0;
 			
 			addColumn(true);
@@ -222,6 +226,28 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		}
 
 	}
+	public int getScore() {
+		return score;
+	}
+	
+	public void addScore(double x) {
+		scores.add(x);
+	}
+	public void clearScores() {
+		scores.clear();
+	}
+	/** Calculates the average score of the players runs before exited manually
+	 */
+	public void calculateAverage() {
+		int games = scores.size();
+		double avg;
+		double sum = 0;
+		for(int i = 0; i < scores.size(); i++) {
+			sum += scores.get(i);
+		}
+		avg = sum / games;
+		System.out.printf("Your average is: %.2f\n",avg);
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -263,6 +289,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			jump();
+		}
+		if ((e.getKeyCode() == KeyEvent.VK_A) && scores.size() > 0) { //calculates the average score of the player 
+				calculateAverage();
 		}
 	}
 
