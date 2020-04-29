@@ -60,10 +60,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
 		addColumn(true);
 		addColumn(true);
 		addColumn(true);
-
 		
 		timer.start();
 		
+	}
+	
+	public static void main(String [] args) {
+
+		flappyBird = new FlappyBird();
+
 	}
 	
 	public void addColumn(boolean start) {
@@ -73,7 +78,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
 		
 		if (start) {
 			
-		
 			columns.add(new Rectangle(WIDTH + width + columns.size() * 300, HEIGHT - height - 120, width, height));
 			columns.add(new Rectangle(WIDTH + width + (columns.size() - 1) * 300, 0, width, HEIGHT - height - space));
 		
@@ -104,114 +108,74 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
 			addColumn(true);
 			addColumn(true);
 			addColumn(true);
-			addColumn(true);
-			
+			addColumn(true);	
 			
 			gameOver = false;
 		}
-		
-		if(!started) {
-			
+		if(!started) {			
 			started = true;
-		}
-		
-		else if(!gameOver){
-			
-			if (yMotion > 0) {
-				
+		}	
+		else if(!gameOver) {			
+			if (yMotion > 0) {				
 				yMotion = 0;
-			}
-			
+			}		
 			yMotion -= 10;
 		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		int speed = 10;
+		int speed = 10;		
+		ticks++;		
 		
-		ticks++;
-		
-		if (started) {
-			
-		
-		
+		if (started) {			
 			for(int i = 0; i < columns.size(); i++) {
-			
 				Rectangle column = columns.get(i);
-			
 				column.x -= speed;
-			}
-		
-			if(ticks % 2 == 0 && yMotion < 15) {
-			
+			}		
+			if(ticks % 2 == 0 && yMotion < 15) {		
 				yMotion += 2;
 			}
 		
-			for(int i = 0; i < columns.size(); i++) {
-			
-				Rectangle column = columns.get(i);
-			
-				if (column.x + column.width < 0) {
-				
-					columns.remove(column);
-				
-					if (column.y== 0) {	
-				
+			for(int i = 0; i < columns.size(); i++) {			
+				Rectangle column = columns.get(i);			
+				if (column.x + column.width < 0) {				
+					columns.remove(column);				
+					if (column.y== 0) {					
 					addColumn(false);
 				
 					}
-				}
-				
+				}				
 			}
 		
 			bird.y += yMotion; //bird movement
-		
-			for (Rectangle column : columns) { //check for collision
-				
-				if (column.y== 0 && bird.x + bird.width / 2 > column.x + column.width / 2 - 10 &&  bird.x + bird.width / 2 < column.x + column.width / 2 + 10) {
-					
+			for (Rectangle column : columns) { //check for collision			
+				if ((column.y == 0) && (bird.x + bird.width / 2 > column.x + column.width / 2 - 10) &&  (bird.x + bird.width / 2 < column.x + column.width / 2 + 10)) {					
 					score++;
-					
-				}
-				
-				if(column.intersects(bird)) {
-					
-					gameOver = true;
-					
-					if (bird.x <= column.x) {
-						
-						bird.x = column.x - bird.width;
-						
-					}
-					
-					else {
-						
-						if(column.y != 0) {
-							
+				}				
+				if(column.intersects(bird)) {					
+					gameOver = true;				
+					if (bird.x <= column.x) {					
+						bird.x = column.x - bird.width;						
+					}					
+					else {						
+						if(column.y != 0) {							
 							bird.y = column.y - bird.height;
-						}
-						
-						else if (bird.y < column.height) {
-							
+						}					
+						else if (bird.y < column.height) {							
 							bird.y = column.height;
 						}
-					}
-				
-				}
-			
+					}				
+				}			
 			}
 		
-			if (bird.y > HEIGHT - 120 || bird.y < 0) {
-			
+			if (bird.y > HEIGHT - 120 || bird.y < 0) {			
 				gameOver = true;
-			}
-			
-			if (bird.y + yMotion >= HEIGHT - 120) {
+			}		
+			if (bird.y + yMotion >= HEIGHT - 120) {	
 				
 				bird.y = HEIGHT - 120 - bird.height;
-
+				
 			}
 			
 			renderer.repaint();
@@ -255,13 +219,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
 		}
 
 	}
-	
-	
-	public static void main(String [] args) {
-		
-		flappyBird = new FlappyBird();
-		
-	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -301,17 +258,14 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			jump();
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 
-		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			jump();
-		}
-		
 	}
 	
 
