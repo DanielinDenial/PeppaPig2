@@ -35,6 +35,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	// array of rectanges which will form the obstacles
 	public ArrayList<Rectangle> columns;
 	
+	public ArrayList<Double> scores;
 	// ticks manages time in the game
 	// yMotion is the motion of the bird
 	// score records number of successful jumps
@@ -65,6 +66,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		
 		bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
 		columns = new ArrayList<Rectangle>();
+		scores = new ArrayList<Double>();
 		
 		addColumn(true);
 		addColumn(true);
@@ -76,6 +78,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	
 	// main method that starts Flappy Bird game
 	public static void main(String [] args) {
+		System.out.println("Press \"A\" to get your average score!");
 		flappyBird = new FlappyBird();
 	}
 	
