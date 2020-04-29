@@ -106,6 +106,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 			bird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
 			columns.clear();
 			yMotion = 0;
+			addScore(score);
 			score = 0;
 			
 			addColumn(true);
@@ -222,6 +223,28 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		}
 
 	}
+	public int getScore() {
+		return score;
+	}
+	
+	public void addScore(double x) {
+		scores.add(x);
+	}
+	public void clearScores() {
+		scores.clear();
+	}
+	/** Calculates the average score of the players runs before exited manually
+	 */
+	public void calculateAverage() {
+		int games = scores.size();
+		double avg;
+		double sum = 0;
+		for(int i = 0; i < scores.size(); i++) {
+			sum += scores.get(i);
+		}
+		avg = sum / games;
+		System.out.printf("Your average is: %.2f\n",avg);
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -263,6 +286,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			jump();
+		}
+		if ((e.getKeyCode() == KeyEvent.VK_A) && scores.size() > 0) { //calculates the average score of the player 
+				calculateAverage();
 		}
 	}
 
