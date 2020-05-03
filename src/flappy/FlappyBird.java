@@ -47,36 +47,17 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 	// used to randomly place obstacles in game
 	public Random rand;
 	
-	// FlappyBird game object
+	/** Initializes the FlappyBird game object to be started when the file is run
+	 * */
 	public FlappyBird() {
-		JFrame jframe = new JFrame();
+
 		Timer timer = new Timer(20, this);
 		
 		renderer = new Renderer();
 		rand = new Random();
 		
-		jframe.add(renderer);
-		jframe.setTitle("Flappy Bird");
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jframe.setSize(WIDTH, HEIGHT);
-		jframe.addMouseListener(this);
-		jframe.addKeyListener(this);
-		jframe.setResizable(false);
-		jframe.setVisible(true);
-		
-		// randomizes bird avatar
-		int randomAvatar = rand.nextInt(5);
-		if (randomAvatar == 0) {
-			bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-		} else if (randomAvatar == 1) {
-			bird = new BlueBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-		} else if (randomAvatar == 2) {
-			bird = new OrangeBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-		} else if (randomAvatar == 3) {
-			bird = new BlackBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-		} else if (randomAvatar == 4) {
-			bird = new WhiteBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-		}
+		initGame();
+		randomAvatar();
 		
 		columns = new ArrayList<Rectangle>();
 		scores = new ArrayList<Double>();
@@ -89,13 +70,32 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		timer.start();
 	}
 	
-	// main method that starts Flappy Bird game
+	/** main method that starts Flappy Bird game
+	 * @param args
+	 */
 	public static void main(String [] args) {
 		System.out.println("Press \"A\" to get your average score!");
 		flappyBird = new FlappyBird();
 	}
 	
-	// adds obstacles (in the form of columns) in the game
+	/** Initializes all of the game settings for Flappy bird through JFrame
+	 */
+	public void initGame() {
+		JFrame jframe = new JFrame();
+		
+		jframe.add(renderer);
+		jframe.setTitle("Flappy Bird");
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.setSize(WIDTH, HEIGHT);
+		jframe.addMouseListener(this);
+		jframe.addKeyListener(this);
+		jframe.setResizable(false);
+		jframe.setVisible(true);
+	}
+	
+	/** adds obstacles (in the form of columns) in the game
+	 * @param start
+	 */
 	public void addColumn(boolean start) {
 		int space = 300;
 		int width = 100;
@@ -111,28 +111,37 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		}
 	}
 	
-	// displays the obstacles in the game display
+	/** displays the obstacles in the game display
+	 * @param graphics, column
+	 */
 	public void paintColumn(Graphics g, Rectangle column) {
 		g.setColor(Color.green.darker());
 		g.fillRect(column.x, column.y, column.width, column.height);
 	}
 	
-	// causes the bird object to jump: main player movement
+	/** picks a random avatar(bird) to be initialized
+	 */
+	public void randomAvatar() {
+		int randomAvatar = rand.nextInt(5);
+		if (randomAvatar == 0) {
+			bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		} else if (randomAvatar == 1) {
+			bird = new BlueBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		} else if (randomAvatar == 2) {
+			bird = new OrangeBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		} else if (randomAvatar == 3) {
+			bird = new BlackBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		} else if (randomAvatar == 4) {
+			bird = new WhiteBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+		}
+	}
+	
+	/** Causes the bird object to jump: main player movement; 
+	 * Also checks to see if the game is over or not and takes actions accordingly
+	 */
 	public void jump() {
 		if (gameOver) {
-			int randomAvatar = rand.nextInt(5);
-			if (randomAvatar == 0) {
-				bird = new ClassicBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-			} else if (randomAvatar == 1) {
-				bird = new BlueBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-			} else if (randomAvatar == 2) {
-				bird = new OrangeBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-			} else if (randomAvatar == 3) {
-				bird = new BlackBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-			} else if (randomAvatar == 4) {
-				bird = new WhiteBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-			}
-			
+			randomAvatar();
 			columns.clear();
 			yMotion = 0;
 			addScore(score);
@@ -156,9 +165,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		}
 	}
 	
-	// invokes playing of game
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	/** invokes playing of game
+	 * @param e - event
+	 */
+	public void actionPerformed(ActionEvent e) { //the action in this case is jump
 		int speed = 10;		
 		ticks++;		
 		
@@ -202,21 +212,20 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 					}				
 				}			
 			}
-		
-			if (bird.y > HEIGHT - 120 || bird.y < 0) {			
+			
+			if (bird.y > HEIGHT - 120 || bird.y < 0) {//If bird flies above screen	
 				gameOver = true;
 			}		
 			if (bird.y + yMotion >= HEIGHT - 120) {	
-				
-				bird.y = HEIGHT - 120 - bird.height;
-				
+				bird.y = HEIGHT - 120 - bird.height;	
 			}
-			
 			renderer.repaint();
 		}
 	}
 	
-	// manages the graphics for the display
+	/** manages the graphics for the display
+	 * @param g
+	 */
 	public void repaint(Graphics g) {
 		// color of background
 		g.setColor(Color.cyan);
@@ -256,19 +265,35 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
 	}
 	
+	/**
+	 * @return score
+	 */
 	public int getScore() {
 		return score;
 	}
 	
+	/** adds the score to the ArrayList<Score>
+	 * @param x
+	 */
 	public void addScore(double x) {
 		scores.add(x);
 	}
 	
+	/** clears ArrayList<Score>
+	 */
 	public void clearScores() {
 		scores.clear();
 	}
 	
-	// Calculates the average score of the players runs before exited manually
+	public void scoreboard() {
+		for(int i = 0; i < scores.size(); i++) {
+			System.out.printf("Round " + (i + 1) + ": " + scores.get(i) + "\n");
+		}
+		System.out.println();
+	}
+	
+	/** Calculates the average score of the players runs before exited manually
+	 */
 	public void calculateAverage() {
 		int games = scores.size();
 		double avg;
@@ -311,6 +336,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 		}
 		if ((e.getKeyCode() == KeyEvent.VK_A) && scores.size() > 0) { //calculates the average score of the player 
 				calculateAverage();
+		}
+		if(e.getKeyCode() == KeyEvent.VK_S) {
+			scoreboard();
 		}
 	}
 
